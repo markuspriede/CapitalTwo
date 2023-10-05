@@ -1,3 +1,3 @@
 # CapitalTwo
 
-Instructions for Sourcetree:
+Add name to the "checkIn" file and commit/push through Sourcetree.
