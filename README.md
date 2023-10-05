@@ -1,3 +1,3 @@
 # CapitalTwo
 
-Add name to the "checkIn" file and commit/push through Sourcetree.
+Add name to the "checkIn" file through your IDE and commit/push through Sourcetree.
