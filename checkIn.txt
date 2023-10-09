@@ -3,4 +3,8 @@ Check in here:
 Markus
 Wai Zin Linn
 Tanay Reddy Kondammagari
+<<<<<<< HEAD
 Spandan Jadhav
+=======
+Simar Singh
+>>>>>>> 6a07e4691d08e4bc2f62b1a0ac7e52f22d92b177
