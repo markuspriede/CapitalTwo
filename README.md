@@ -1,3 +1,3 @@
 # CapitalTwo
 
-Add name to the "checkIn" file through your IDE and commit/push through Sourcetree.
+To access the frontend server, pull, navigate to "frontend" folder, run "npm install", then run "npm run dev", which uses localhost:3000
