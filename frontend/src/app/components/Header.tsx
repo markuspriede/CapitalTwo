@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import styles from "./Header.module.css";
 import { usePathname } from "next/navigation";
+import Link from 'next/link';
 
 const Header = () => {
   const [selected, setSelected] = useState("");
@@ -34,4 +35,5 @@ const Header = () => {
   </div>
 }
 
+    
 export default Header;
