@@ -20,57 +20,78 @@ mydb = mysql.connector.connect(
 
 mysql = MySQL(app)
 
+# Utility functions for Budget operations
+def get_budgets(user_id):
+    cursor = mydb.cursor(dictionary=True)
+    query = "SELECT * FROM Budget WHERE user_id = %s"
+    cursor.execute(query, (user_id,))
+    budgets = cursor.fetchall()
+    cursor.close()
+    return budgets
 
+
+def add_budget(user_id, start_date, end_date, total_amount):
+    cursor = mydb.cursor()
+    query = "INSERT INTO Budget (user_id, start_date, end_date, total_amount) VALUES (%s, %s, %s, %s)"
+    cursor.execute(query, (user_id, start_date, end_date, total_amount))
+    mydb.commit()
+    cursor.close()
+
+
+def delete_budget(user_id, budget_id):
+    cursor = mydb.cursor()
+    query = "DELETE FROM Budget WHERE budget_id = %s AND user_id = %s"
+    cursor.execute(query, (budget_id, user_id))
+    mydb.commit()
+    cursor.close()
+
+
+# Utility functions for Transaction operations
+def get_transactions(user_id):
+    cursor = mydb.cursor(dictionary=True)
+    query = "SELECT * FROM Transaction WHERE user_id = %s"
+    cursor.execute(query, (user_id,))
+    transactions = cursor.fetchall()
+    cursor.close()
+    return transactions
+
+
+def update_transaction_category(user_id, transaction_id, category_name):
+    cursor = mydb.cursor()
+    query = "UPDATE Transaction SET category_name = %s WHERE transaction_id = %s AND user_id = %s"
+    cursor.execute(query, (category_name, transaction_id, user_id))
+    mydb.commit()
+    cursor.close()
+
+
+# Routes using utility functions
 @app.route('/budgets', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @cross_origin(supports_credentials=True)
 def handle_budgets():
-    cursor = mydb.cursor(dictionary=True)
+    user_id = request.json.get('user_id')
 
-    # GET - Fetch budgets of the hardcoded user
     if request.method == 'GET':
-        query = "SELECT * FROM Budget WHERE user_id = 1"
-        cursor.execute(query)
-        budgets = cursor.fetchall()
-        return jsonify(budgets)
-
-    # PUT - Add a new budget for the hardcoded user
+        return jsonify(get_budgets(user_id))
     elif request.method == 'PUT':
         data = request.json
-        query = "INSERT INTO Budget (user_id, start_date, end_date, total_amount) VALUES (1, %s, %s, %s)"
-        cursor.execute(query, (data['start_date'], data['end_date'], data['total_amount']))
-        mydb.commit()
+        add_budget(user_id, data['start_date'], data['end_date'], data['total_amount'])
         return jsonify({"message": "Budget added successfully!"})
-
-    # DELETE - Remove a budget given its ID
     elif request.method == 'DELETE':
         data = request.json
-        query = "DELETE FROM Budget WHERE budget_id = %s AND user_id = 1"
-        cursor.execute(query, (data['budget_id'],))
-        mydb.commit()
+        delete_budget(user_id, data['budget_id'])
         return jsonify({"message": "Budget deleted successfully!"})
-
-    cursor.close()
     return jsonify({"message": "Invalid request method."})
+
 
 @app.route('/transactions', methods=['GET', 'POST'])
 @cross_origin(supports_credentials=True)
 def handle_transactions():
-    cursor = mydb.cursor(dictionary=True)
+    user_id = request.json.get('user_id')
 
-    # GET - Fetch transactions of the hardcoded user
     if request.method == 'GET':
-        query = "SELECT * FROM Transaction WHERE user_id = 1"
-        cursor.execute(query)
-        transactions = cursor.fetchall()
-        return jsonify(transactions)
-
-    # POST - Update the category_name for a specific transaction given its ID
+        return jsonify(get_transactions(user_id))
     elif request.method == 'POST':
         data = request.json
-        query = "UPDATE Transaction SET category_name = %s WHERE transaction_id = %s AND user_id = 1"
-        cursor.execute(query, (data['category_name'], data['transaction_id']))
-        mydb.commit()
+        update_transaction_category(user_id, data['transaction_id'], data['category_name'])
         return jsonify({"message": "Transaction updated successfully!"})
-
-    cursor.close()
     return jsonify({"message": "Invalid request method."})
