@@ -1,3 +1,4 @@
+'use client'
 
 import React from 'react';
 import {useState} from "react";
@@ -22,7 +23,7 @@ const Budgets: React.FC = () => {
         enable: true
       },
       {
-        id: 1,
+        id: 2,
         category: "Dining",
         assigned: "$650",
         amount: "$500",
@@ -30,7 +31,7 @@ const Budgets: React.FC = () => {
         enable: true
       },
       {
-        id: 1,
+        id: 3,
         category: "Work",
         assigned: "$650",
         amount: "$500",

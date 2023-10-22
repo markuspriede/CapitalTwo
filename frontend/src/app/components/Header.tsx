@@ -8,7 +8,6 @@ import logo from "../icons/Capital-One-Logo.png"
 import Image from "next/image";
 
 const Header = () => {
-  const [selected, setSelected] = useState("");
 
   const pathName = usePathname();
 
@@ -20,14 +19,11 @@ const Header = () => {
     { name: "Budget & Planning", link: "/budgets" },
   ];
 
-  useEffect(() => {
-    setSelected(pathName);
-  }, []);
 
   return <div>
       <div className="flex px-10">
         <Link href="/">
-          <Image src={logo} alt="Capital One Logo" className="object-scale-down h-16 w-32" />
+          <Image src={logo} alt="Capital One Logo" priority={true} className="object-scale-down h-16 w-32" />
         </Link>
       </div>
 
@@ -35,14 +31,13 @@ const Header = () => {
         {headerItems.map((item, index) => (
           <li className="mr-1" key={index}>
             <Link href={item.link}>
-              <div className={selected === item.link ? styles.selected : styles.notSelected}>
+              <div className={pathName === item.link ? styles.selected : styles.notSelected}>
                 {item.name}
-              </div>
+             </div>
             </Link>
           </li>
         ))}
       </ul>
-
     </div>
 }
 
