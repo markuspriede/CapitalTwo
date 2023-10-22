@@ -74,29 +74,29 @@ const Transactions = () => {
   ])
 
   return <>
-    <table className="table-fixed text-left shadow-md text-xs">
+    <table className="table-fixed text-left shadow-md text-xs font-sans border-collapse">
       <thead>
         <tr className="bg-blue-100">
-          <th className="py-3">DATE</th>
-          <th className="py-3">NAME</th>
-          <th className="py-3">AMOUNT</th>
-          <th className="py-3">ID</th>
-          <th className="py-3">CATEGORY</th>
-          <th className="py-3">BUDGET</th>
+          <th className="py-3 pl-3">DATE</th>
+          <th className="py-3 pl-3">NAME</th>
+          <th className="py-3 pl-3">AMOUNT</th>
+          <th className="py-3 pl-3">ID</th>
+          <th className="py-3 pl-3">CATEGORY</th>
+          <th className="py-3 pl-3 border">BUDGET</th>
         </tr>
       </thead>
       <tbody>
         {
           transactions.map((transaction, key) => {
-            return <tr key={key} className="border">
+            return <tr key={key} className="border-t-2">
               { Object.entries(transaction).map(([key, value]) => {
                 if (key === "budget") {
-                  return <td className="py-2" key={key}>
+                  return <td className="py-2 pl-3" key={key}>
                     <TableDropdown budgets={budgets} />
                   </td>
                 }
 
-                return <td className="py-2" key={key}>{ value }</td>
+                return <td className="py-2 pl-3 border" key={key}>{ value }</td>
               }) }
             </tr>
           })
