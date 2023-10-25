@@ -22,13 +22,13 @@ const TableDropdown = (props: ITableDropdownProps) => {
         </button>
       </div>
 
-      {
-        !hidden ? <>
+      { //make this lead to the budget page
+        !hidden ? <> 
           <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" tabIndex={-1}>
-            <div className="py-1" role="none">
+            <div className="py-1">
               {
                 props.budgets.map((budget) => {
-                  return <p key={budget} className="text-gray-700 block px-4 py-2 text-sm" tabIndex={-1}>{ budget }</p>;
+                  return <p key={budget} className="text-gray-700 block px-4 py-2 text-sm" tabIndex={-1}>{ budget }</p>; 
                 })
               }
             </div>

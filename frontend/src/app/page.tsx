@@ -1,9 +1,7 @@
 'use client'
 
 import Card from "./components/Card";
-import Header from "./components/Header";
 import Transactions from "./components/Transactions";
-import Budget from "./components/Budgets";
 
 const Home = () => {
   return (

@@ -1,3 +1,4 @@
+'use client'
 
 import React from 'react';
 import {useState} from "react";
@@ -16,25 +17,25 @@ const Budgets: React.FC = () => {
       {
         id: 1,
         category: "Household",
-        assigned: "$650",
-        amount: "$500",
-        available: "$52",
+        assigned: "$650.00",
+        amount: "$500.00",
+        available: "$52.00",
         enable: true
       },
       {
-        id: 1,
+        id: 2,
         category: "Dining",
-        assigned: "$650",
-        amount: "$500",
-        available: "$52",
+        assigned: "$650.00",
+        amount: "$500.00",
+        available: "$52.00",
         enable: true
       },
       {
-        id: 1,
+        id: 3,
         category: "Work",
-        assigned: "$650",
-        amount: "$500",
-        available: "$52",
+        assigned: "$650.00",
+        amount: "$500.00",
+        available: "$52.00",
         enable: true
       },
       
@@ -65,34 +66,39 @@ const Budgets: React.FC = () => {
         </button>
       </div>
 
-     <table className="table-fixed text-left shadow-md text-xs mt-6">
+     <table className="w-full text-left shadow-md text-xs font-sans border-collapse mt-3 rounded-md">
         <thead className="bg-blue-300">
           <tr>
-            <th>Category</th>
-            <th>Assigned</th>
-            <th>Amount</th>
-            <th>Available</th>
-            <th>Enable</th>
-            <th>Actions</th>
+            <th className="py-3 pl-3 w-1/6">Category</th>
+            <th className="py-3 pl-3 w-1/6">Assigned</th>
+            <th className="py-3 pl-3 w-1/6">Amount</th>
+            <th className="py-3 pl-3 w-1/6">Available</th>
+            <th className="py-3 pl-3 w-1/6">Enable</th>
+            <th className="py-3 pl-3 w-1/6">Actions</th>
           </tr>
         </thead>
         <tbody>
           {budgetItems.map(item => (
-            <tr key={item.id}>
-              <td>{item.category}</td>
-              <td>{item.assigned}</td>
-              <td>{item.amount}</td>
-              <td>{item.available}</td>
-              <td>
+            <tr key={item.id} className="border-t-2">
+              <td className="py-2 pl-3">{item.category}</td>
+              <td className="py-2 pl-3">{item.assigned}</td>
+              <td className="py-2 pl-3">{item.amount}</td>
+              <td className="py-2 pl-3">{item.available}</td>
+              <td className="py-2 pl-3">
                 <input type="checkbox" checked={item.enable} onChange={() => toggleEnable(item.id)} />
               </td>
-              <td>
+              <td className="py-2 pl-3">
                 <button onClick={() => deleteItem(item.id)}>Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div className="flex justify-center">
+        <button className= "text-blue-700 bg-blue-100 rounded-full px-4 py-2 mt-4">
+          Add Budget
+        </button>
+      </div>
     </div>
   );
 }
