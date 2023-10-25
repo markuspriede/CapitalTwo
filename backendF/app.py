@@ -6,7 +6,6 @@ from flask_cors import CORS, cross_origin
 import mysql.connector
 
 
-
 app = Flask(__name__)
 CORS(app, support_credentials=True)
 
@@ -19,7 +18,6 @@ mydb = mysql.connector.connect(
 )
 
 mysql = MySQL(app)
-
 
 @app.route('/budgets', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @cross_origin(supports_credentials=True)
