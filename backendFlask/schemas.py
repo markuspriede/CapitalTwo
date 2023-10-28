@@ -22,7 +22,6 @@ class PlainTransactionSchema(Schema):
 
 class UpdateBudgetSchema(Schema):
     start_date = fields.Date()
-    amount_avaiable = fields.Float()
     category_name = fields.Str()
     budget_amount = fields.Float()
     amount_spent = fields.Float()

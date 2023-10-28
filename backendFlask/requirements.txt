@@ -1,5 +1,6 @@
-flask
+flask==2.3.3
 flask-sqlalchemy
+mysql-connector-python
 sqlalchemy
 flask-smorest
 python-dotenv

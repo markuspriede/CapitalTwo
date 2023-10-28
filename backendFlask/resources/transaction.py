@@ -2,7 +2,7 @@ from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError
 from db import db
-from models import TransactionModel
+from models import TransactionModel, BudgetModel
 from schemas import TransactionSchema
 
 blp = Blueprint("Transactions", "transactions", description="Operations on transactions")
@@ -30,9 +30,13 @@ class TransactionList(MethodView):
     @blp.arguments(TransactionSchema)
     @blp.response(201, TransactionSchema)
     def post(self, transaction_data):
+        budget = BudgetModel.query.get_or_404(transaction_data["budget_id"])
+        budget.amount_spent += transaction_data["amount"] 
+        budget.amount_avaiable -= transaction_data["amount"]
         transaction = TransactionModel(**transaction_data)
         try:
             db.session.add(transaction)
+            db.session.add(budget)
             db.session.commit()
         except SQLAlchemyError:
             abort(500, message="An error occurred creating the transaction.")
