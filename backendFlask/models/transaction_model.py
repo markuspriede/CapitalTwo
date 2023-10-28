@@ -18,5 +18,3 @@ class TransactionModel(db.Model):
         db.Integer, db.ForeignKey("budgets.id"), unique=False, nullable=False
     )
     budget = db.relationship("BudgetModel", back_populates="transactions")
-
-    

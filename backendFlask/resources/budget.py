@@ -33,13 +33,15 @@ class Budget(MethodView):
             # if exist, will update 
             budget.start_date = budget_data["start_date"]
             budget.end_date = budget_data["start_date"] + timedelta(days=30)
-            budget.total_amount = budget_data["total_amount"]
             budget.category_name = budget_data["category_name"]
             budget.budget_amount = budget_data["budget_amount"]
-            budget.amount_spent = budget_data["amount_spent"]
+            budget.amount_avaiable = budget_data["budget_amount"] - budget.amount_avaiable
         else:
             # if doesn't exist, will create a new budget
-            budget = BudgetModel(id=budget_id, end_date=budget_data["start_date"] + timedelta(days=30), **budget_data)
+            budget = BudgetModel(id=budget_id, 
+                                 end_date=budget_data["start_date"] + timedelta(days=30),
+                                 amount_avaiable=budget_data["budget_amount"] - budget.amount_avaiable,
+                                 **budget_data)
         db.session.add(budget)
         db.session.commit()
 
@@ -56,15 +58,15 @@ class BudgetList(MethodView):
     @blp.arguments(UpdateBudgetSchema)
     @blp.response(201, BudgetSchema)
     def post(self, budget_data):
-        budget = BudgetModel(end_date=budget_data["start_date"] + timedelta(days=30), **budget_data)
+        budget = BudgetModel(end_date=budget_data["start_date"] + timedelta(days=30), amount_avaiable=budget_data["budget_amount"], **budget_data)
         try:
             db.session.add(budget)
             db.session.commit()
-        except IntegrityError:
-            abort(
-                400,
-                message="A category with that name already exists.",
-            )
+        # except IntegrityError:
+        #     abort(
+        #         400,
+        #         message="A category with that name already exists.",
+        #     )
         except SQLAlchemyError:
             abort(500, message="An error occurred while inserting the budget.")
 

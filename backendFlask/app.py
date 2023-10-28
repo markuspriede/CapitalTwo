@@ -9,6 +9,9 @@ import os
 def create_app(db_url=None):
     app = Flask(__name__)
 
+    if __name__ == "__main__":
+        app.run(host="0.0.0.0")
+
     # will find env file and load the content
     load_dotenv()
 

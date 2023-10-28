@@ -12,7 +12,7 @@ class BudgetModel(db.Model):
     # create following columns
 
     id = db.Column(db.Integer, primary_key=True)
-    category_name = db.Column(db.String(80), unique=True, nullable=False)
+    category_name = db.Column(db.String(80), unique=False, nullable=False)
     start_date = db.Column(db.Date, unique=False, nullable=False) # nullable = False -> cannot create item that doesn't have start date
     end_date = db.Column(db.Date, unique=False)
     budget_amount = db.Column(db.Float(precision=2), unique=False, nullable=False)
