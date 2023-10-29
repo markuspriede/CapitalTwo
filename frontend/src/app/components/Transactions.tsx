@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TableDropdown from "./TableDropdown";
 
 interface ITransaction {
@@ -14,64 +14,28 @@ const Transactions = () => {
 
   const budgets = ["Household"];
 
-  const [transactions, setTransactions] = useState<ITransaction[]>([
-    {
-      date: "08/15/23",
-      name: "Target",
-      amount: 52.17,
-      ID: 12488,
-      category: "Household",
-      budget: "Shopping"
-    },
-    {
-      date: "08/15/23",
-      name: "Target",
-      amount: 52.17,
-      ID: 12488,
-      category: "Household",
-      budget: "Shopping"
-    },
-    {
-      date: "08/15/23",
-      name: "Target",
-      amount: 52.17,
-      ID: 12488,
-      category: "Household",
-      budget: "Shopping"
-    },
-    {
-      date: "08/15/23",
-      name: "Target",
-      amount: 52.17,
-      ID: 12488,
-      category: "Household",
-      budget: "Shopping"
-    },
-    {
-      date: "08/15/23",
-      name: "Target",
-      amount: 52.17,
-      ID: 12488,
-      category: "Household",
-      budget: "Shopping"
-    },
-    {
-      date: "08/15/23",
-      name: "Target",
-      amount: 52.17,
-      ID: 12488,
-      category: "Household",
-      budget: "Shopping"
-    },
-    {
-      date: "08/15/23",
-      name: "Target",
-      amount: 52.17,
-      ID: 12488,
-      category: "Household",
-      budget: "Shopping"
-    },
-  ])
+  const [transactions, setTransactions] = useState<ITransaction[]>([]);
+
+  function mapTransactionToTableCell(transaction: any) {
+    return {
+      date: transaction.date,
+      name: transaction.alias,
+      amount: `$${transaction.budget.amount_spent}`,
+      id: transaction.id,
+      subscription: transaction.isSubscription ? "Yes" : "N/A",
+      budget: transaction.budget.category_name
+    }
+  }
+
+  useEffect(() => {
+    fetch(`http://localhost/transaction`).then((res) => res.json()).then((data) => data.map(mapTransactionToTableCell)).then((transactions) => {
+      setTransactions(transactions);
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log(transactions);
+  }, [transactions]);
 
   return <>
     <table className="table-fixed text-left shadow-md text-xs font-sans border-collapse">
@@ -81,7 +45,7 @@ const Transactions = () => {
           <th className="py-3 pl-3">NAME</th>
           <th className="py-3 pl-3">AMOUNT</th>
           <th className="py-3 pl-3">ID</th>
-          <th className="py-3 pl-3">CATEGORY</th>
+          <th className="py-3 pl-3">SUBSCRIPTION</th>
           <th className="py-3 pl-3 border">BUDGET</th>
         </tr>
       </thead>
@@ -96,7 +60,7 @@ const Transactions = () => {
                   </td>
                 }
 
-                return <td className="py-2 pl-3 border" key={key}>{ value }</td>
+                return <td className="py-2 pl-3 border-b" key={key}>{ value }</td>
               }) }
             </tr>
           })

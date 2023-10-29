@@ -4,10 +4,12 @@ from resources.transaction import blp as BudgetBlueprint
 from resources.budget import blp as TransactionBlueprint
 from db import db
 from dotenv import load_dotenv 
+from flask_cors import CORS, cross_origin
 import os
 
 def create_app(db_url=None):
     app = Flask(__name__)
+    CORS(app, support_credentials=True)
 
     if __name__ == "__main__":
         app.run(host="0.0.0.0")

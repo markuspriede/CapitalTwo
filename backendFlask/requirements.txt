@@ -1,5 +1,6 @@
 flask==2.3.3
 flask-sqlalchemy
+flask-cors
 mysql-connector-python
 sqlalchemy
 flask-smorest
