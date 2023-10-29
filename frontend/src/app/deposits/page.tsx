@@ -12,18 +12,21 @@ const Deposits: React.FC = () => {
         <Card title="Total Balance" line1="$100.50" line2="Balance Details" buttonText="View Balance Details" />
       </div>
 
-      <div className="grid-cols-12">
-        <div>
-
+      <div className="pt-8 flex flex-col flex-1 mb-6 flex-grow">
+        <h1 className="text-2xl font-semibold pb-4">Financial Summary</h1>
+        <div className="flex flex-1 justify-center gap-x-3 text-left">
+          <div className="bg-gray-200 rounded-md p-3 text-left text-xl flex-1 shadow-md">Activities</div>
+          <div className="bg-gray-200 rounded-md p-3 text-left text-xl flex-shrink w-1/4 shadow-md">Categories</div>
+          <div className="bg-gray-200 rounded-md p-3 text-left text-xl flex-1 shadow-md">Budget</div>
         </div>
+      </div>
 
-        <div className="pt-8 flex flex-col flex-1 mb-6 flex-grow">
-          <h1 className="text-2xl font-semibold pb-4">Financial Summary</h1>
-          <div className="flex flex-1 justify-center gap-x-3 text-left">
-            <div className="bg-gray-200 rounded-md p-3 text-left text-xl flex-1 shadow-md">Activities</div>
-            <div className="bg-gray-200 rounded-md p-3 text-left text-xl flex-shrink w-1/4 shadow-md">Categories</div>
-            <div className="bg-gray-200 rounded-md p-3 text-left text-xl flex-1 shadow-md">Budget</div>
-          </div>
+      <div className="flex gap-2">
+        <div className="w-1/6 flex flex-col gap-5 pt-3 text-sm text-gray-400">
+          <p className="">Recent Transactions</p>
+          <p>Previous Billing</p>
+          <p>Financial Summary</p>
+          <p>Custom Date Range</p>
         </div>
 
         <Transactions />
