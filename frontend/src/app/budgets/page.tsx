@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useState } from "react";
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaListUl } from 'react-icons/fa';
 import Switch from 'react-switch'
 
 interface IBudgetItem {
@@ -85,9 +85,9 @@ const Budgets: React.FC = () => {
   };
   //format values upto 2 decimal places and prefix with dollar sign
   const formatCurrency = (value: string) => {
-    const numValue = parseFloat(value);
-    if (isNaN(numValue)) return "$0.00";
-    return `$${numValue.toFixed(2)}`;
+    const numValue = parseFloat(value.replace(/\$/g, '')); // Remove the dollar sign
+    if (isNaN(numValue)) return '0.00'; // Set a default value if parsing fails
+    return `$${numValue.toFixed(2)}`; // Format the number with two decimal places
   };
 
   return (
@@ -98,7 +98,7 @@ const Budgets: React.FC = () => {
         <p className="text-gray-600">08/15/2023 - 09/14/2023</p>
         <button className="bg-blue-100 text-white rounded-full px-8 py-2 space-x-4">
           <span className="flex-1 bg-white w-1/2 h-full rounded-l-full"></span>
-          <span className="flex-1 bg-white w-1/2 h-full rounded-r-full"></span>
+          <span className="flex-1 bg-white w-1/2 h-full rounded-r-full"></span> 
         </button>
       </div>
 
@@ -119,51 +119,62 @@ const Budgets: React.FC = () => {
             <tr key={item.id}
               className={`border-t-2 ${editingId === item.id ? 'bg-blue-300' : ''} text-base`}
             >
-              <td className="py-2 pl-3">
-                <input
-                  type="text"
-                  value={item.category}
-                  onChange={(e) => updateField(item.id, 'category', e.target.value)}
-                  readOnly={editingId !== item.id}
-                  placeholder="New Category"
-                  className="rounded"
-                />
+              <td className="py-2 pl-3 cursor-default">
+                {editingId === item.id ? (
+                  <input
+                    type="text"
+                    value={item.category}
+                    onChange={(e) => updateField(item.id, 'category', e.target.value)}
+                    placeholder="New Category"
+                    className="rounded"
+                  />
+                ) : (
+                  <span>{item.category}</span>
+                )}
               </td>
-              <td className="py-2 pl-3">
-                <input
-                  type="text"
-                  value={item.assigned}
-                  onBlur={(e) => updateField(item.id, 'assigned', formatCurrency(e.target.value))}
-                  onChange={(e) => updateField(item.id, 'assigned', e.target.value)}
-                  readOnly={editingId !== item.id}
-                  placeholder="$0.00"
-                  className="rounded"
+              <td className="py-2 pl-3 cursor-default">
+                {editingId === item.id ? (
+                  <input
+                    type="text"
+                    value={item.assigned}
+                    onBlur={(e) => updateField(item.id, 'assigned', formatCurrency(e.target.value))}
+                    onChange={(e) => updateField(item.id, 'assigned', e.target.value)}
+                    placeholder="$0.00"
+                    className="rounded"
+                  />
+                ) : (
+                  <span>{formatCurrency(item.assigned)}</span>
+                )}
+              </td>
+              <td className="py-2 pl-3 cursor-default">
+                {editingId === item.id ? (
+                  <input
+                    type="text"
+                    value={item.amount}
+                    onBlur={(e) => updateField(item.id, 'amount', formatCurrency(e.target.value))}
+                    onChange={(e) => updateField(item.id, 'amount', e.target.value)}
+                    placeholder="$0.00"
+                    className="rounded"
+                  />
+                ) : (
+                  <span>{formatCurrency(item.amount)}</span>
+                )}
+              </td>
+              <td className="py-2 pl-3 cursor-default">
+                {editingId === item.id ? (
+                  <input
+                    type="text"
+                    value={item.available}
+                    onBlur={(e) => updateField(item.id, 'available', formatCurrency(e.target.value))}
+                    onChange={(e) => updateField(item.id, 'available', e.target.value)}
+                    placeholder="$0.00"
+                    className="rounded"
+                  />
+                ) : (
+                  <span>{formatCurrency(item.available)}</span>
+                )}
+              </td>
 
-                />
-              </td>
-              <td className="py-2 pl-3">
-                <input
-                  type="text"
-                  value={item.amount}
-                  onBlur={(e) => updateField(item.id, 'amount', formatCurrency(e.target.value))}
-                  onChange={(e) => updateField(item.id, 'amount', e.target.value)}
-                  readOnly={editingId !== item.id}
-                  placeholder="$0.00"
-                  className="rounded"
-                />
-              </td>
-              <td className="py-2 pl-3">
-                <input
-                  type="text"
-                  value={item.available}
-                  onBlur={(e) => updateField(item.id, 'available', formatCurrency(e.target.value))}
-                  onChange={(e) => updateField(item.id, 'available', e.target.value)}
-                  readOnly={editingId !== item.id}
-                  placeholder="$0.00"
-                  className="rounded "
-
-                />
-              </td>
               <td className="py-2 pl-3">
                 <Switch
                   checked={item.enable}
@@ -173,13 +184,11 @@ const Budgets: React.FC = () => {
                 />
               </td>
               <td className="py-2 pl-3 flex items-center space-x-2">
-                <div className="flex space-x-2">
+                <div className="flex space-x-2 cursor-pointer text-xl opacity-50">
                   <FaEdit
-                    style={{ cursor: 'pointer', fontSize: '20px' }} 
                     onClick={() => editItem(item.id)}
                   />
                   <FaTrash
-                    style={{ cursor: 'pointer', fontSize: '20px' }} 
                     onClick={() => deleteItem(item.id)}
                   />
                 </div>
