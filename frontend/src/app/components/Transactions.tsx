@@ -12,7 +12,7 @@ interface ITransaction {
 
 const Transactions = () => {
 
-  const budgets = ["Household"];
+  const [budgets, setBudgets] = useState<string[]>([]);
 
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
 
@@ -30,6 +30,18 @@ const Transactions = () => {
   useEffect(() => {
     fetch(`http://localhost/transaction`).then((res) => res.json()).then((data) => data.map(mapTransactionToTableCell)).then((transactions) => {
       setTransactions(transactions);
+    });
+  }, []);
+
+  useEffect(() => {
+    fetch(`http://localhost/budget`).then((res) => res.json()).then((budgets) => {
+      const newBudgets: string[] = [];
+
+      budgets.map((budget: any) => {
+        newBudgets.push(budget.category_name);
+      });
+
+      setBudgets(newBudgets);
     });
   }, []);
 
@@ -55,12 +67,12 @@ const Transactions = () => {
             return <tr key={key} className="border-t-2">
               { Object.entries(transaction).map(([key, value]) => {
                 if (key === "budget") {
-                  return <td className="py-2 pl-3" key={key}>
+                  return <td className="pl-3" key={key}>
                     <TableDropdown budgets={budgets} />
                   </td>
                 }
 
-                return <td className="py-2 pl-3 border-b" key={key}>{ value }</td>
+                return <td className="pl-3 border-b" key={key}>{ value }</td>
               }) }
             </tr>
           })
