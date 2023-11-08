@@ -5,3 +5,18 @@
 html, body {
   min-height: 100vh;
 }
+
+
+.primary {
+  color: "#3374AC"
+}
+.hover {
+  color: "#3347AC99",
+}
+
+.secondary{ color : "#EAF1F6", }
+.text{ color : "#19191B", }
+.sub-light{ color : "#AFB1B6", }
+.dark-grey{ color : "#61646B", }
+.background{ color : "#EFEFF0", }
+.blue-100{ color : "#dbeafe" }
