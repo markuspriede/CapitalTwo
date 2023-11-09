@@ -33,12 +33,25 @@ class TransactionList(MethodView):
         budget = BudgetModel.query.get_or_404(transaction_data["budget_id"])
         budget.amount_spent += transaction_data["amount"] 
         budget.amount_avaiable -= transaction_data["amount"]
-        transaction = TransactionModel(**transaction_data)
+
+        subscription_id = transaction_data.get("subscription_id", None)
+        if subscription_id == "" or subscription_id == 0 or (transaction_data["isSubscription"] == False):
+            subscription_id = None
+
+        transaction = TransactionModel(
+            alias = transaction_data["alias"],
+            isSubscription = transaction_data["isSubscription"],
+            date = transaction_data["date"],
+            amount = transaction_data["amount"],
+            description = transaction_data["description"],
+            budget_id = transaction_data["budget_id"],
+            subscription_id=subscription_id)
+        
         try:
             db.session.add(transaction)
             db.session.add(budget)
             db.session.commit()
-        except SQLAlchemyError:
+        except SQLAlchemyError as e:
             abort(500, message="An error occurred creating the transaction.")
 
         return transaction

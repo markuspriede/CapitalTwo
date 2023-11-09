@@ -21,7 +21,7 @@ class BudgetModel(db.Model):
 
     # We can also see all of the transactions that are associated with this budget (SQL Alchemy will handle this)
     # lazy="dynamic" means transactions won't be fetch from database until we tell it to
-    # cascade="all, delete"
+    # cascade="all, delete" -> ensure the transaction relating budget is deleted when the transaction is deleted
     transactions = db.relationship(
         "TransactionModel", back_populates="budget", lazy="dynamic", cascade='all, delete'
     )
