@@ -1,10 +1,12 @@
 'use client'
 import React from 'react'
+import Card from "../components/Card";
+import Transactions from '../components/Transactions';
 
-const  Payments: React.FC = () => { 
+const Payments: React.FC = () => { 
   return (
-    <h3>Payments</h3>
+    <Transactions />
   )
 }
 
-export default Payments
+export default Payments;

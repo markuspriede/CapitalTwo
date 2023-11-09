@@ -50,7 +50,7 @@ const Transactions = () => {
   }, [transactions]);
 
   return <>
-    <table className="w-full table-fixed text-left shadow-md text-xs font-sans border-collapse">
+    <table className="table-fixed text-left shadow-md text-xs font-sans border-collapse">
       <thead>
         <tr className="bg-blue-100">
           <th className="py-3 pl-3">DATE</th>
