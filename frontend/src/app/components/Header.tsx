@@ -13,9 +13,7 @@ const Header = () => {
 
   const headerItems = [
     { name: "Home", link: "/" },
-    { name: "Transfers & Deposits", link: "/deposits" },
-    { name: "Payments", link: "/payments" },
-    { name: "Statements & Activity", link: "/statements" },
+    { name: "Transfers & Payments", link: "/payments" },
     { name: "Budget & Planning", link: "/budgets" },
   ];
 
@@ -31,7 +29,7 @@ const Header = () => {
         {headerItems.map((item, index) => (
           <li className="mr-1" key={index}>
             <Link href={item.link}>
-              <div className={pathName === item.link ? styles.selected : styles.notSelected}>
+              <div className={(pathName === item.link) || (pathName !== "" && item.link !== "" && pathName.includes(item.link)) ? styles.selected : styles.notSelected}>
                 {item.name}
              </div>
             </Link>
