@@ -17,6 +17,8 @@ const Header = () => {
     { name: "Budget & Planning", link: "/budgets" },
   ];
 
+  console.log(pathName);
+
 
   return <div>
       <div className="flex px-10">
@@ -29,7 +31,7 @@ const Header = () => {
         {headerItems.map((item, index) => (
           <li className="mr-1" key={index}>
             <Link href={item.link}>
-              <div className={(pathName === item.link) || (pathName !== "" && item.link !== "" && pathName.includes(item.link)) ? styles.selected : styles.notSelected}>
+              <div className={(pathName === item.link) || (pathName !== "/" && item.link !== "/" && pathName.includes(item.link)) ? styles.selected : styles.notSelected}>
                 {item.name}
              </div>
             </Link>
