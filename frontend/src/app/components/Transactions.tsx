@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
 import TableDropdown from "./TableDropdown";
-
-interface ITransaction {
-  date: string,
-  name: string,
-  amount: number,
-  ID: number,
-  category: string,
-  budget: string
-}
+import { ITransaction } from "../types/Transaction";
+import SubscriptionModal from "./SubscriptionModal";
 
 const Transactions = () => {
 
@@ -16,15 +9,24 @@ const Transactions = () => {
 
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
 
+  const [showModal, setModal] = useState<boolean>(false);
+
+  const [currentTransaction, setCurrentTransaction] = useState<ITransaction | null>(null);
+
   function mapTransactionToTableCell(transaction: any) {
     return {
       date: transaction.date,
       name: transaction.alias,
-      amount: `$${transaction.budget.amount_spent}`,
+      amount: `${transaction.budget.amount_spent}`,
       id: transaction.id,
-      subscription: transaction.isSubscription ? "Yes" : "N/A",
+      subscription: transaction.isSubscription,
       budget: transaction.budget.category_name
     }
+  }
+
+  function openModal(transaction: ITransaction) {
+    setCurrentTransaction(transaction);
+    setModal(true);
   }
 
   useEffect(() => {
@@ -45,11 +47,8 @@ const Transactions = () => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log(transactions);
-  }, [transactions]);
-
   return <>
+    <SubscriptionModal showModal={showModal} setModal={setModal} transaction={currentTransaction} />
     <table className="table-fixed text-left shadow-md text-xs font-sans border-collapse">
       <thead>
         <tr className="bg-blue-100">
@@ -69,6 +68,13 @@ const Transactions = () => {
                 if (key === "budget") {
                   return <td className="pl-3" key={key}>
                     <TableDropdown budgets={budgets} />
+                  </td>
+                }
+
+                if (key === "subscription") {
+                  return <td className="pl-3 pt-2 flex items-center" key={key}>
+                    <input key={key} onClick={() => openModal(transaction)} type="checkbox" value={value} />
+                    <p>Subscribe</p>
                   </td>
                 }
 
