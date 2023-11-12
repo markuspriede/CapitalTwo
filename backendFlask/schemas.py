@@ -14,9 +14,8 @@ class PlainBudgetSchema(Schema):
 class PlainSubscriptionSchema(Schema):
     id = fields.Int(dump_only=True)
     icon_path = fields.Str(required=False)
-    recurring = fields.Boolean(required=True)
-    start_date = fields.Date(required=False)
-    end_date = fields.Date(required=False)
+    routine = fields.Str(required=False)
+    description = fields.Str(required=False)
     subscription_name = fields.Str(required=True)
     price = fields.Float(required=True)
 
@@ -40,6 +39,14 @@ class TransactionSchema(PlainTransactionSchema):
     budget =  fields.Nested(PlainBudgetSchema(), dump_only=True) # use only for returning not when receiving
     subscription_id = fields.Int(required=False, load_only=True)
     subscription = fields.Nested(PlainSubscriptionSchema(), dump_only=True)
+
+class UpdateTransactionSchema(Schema):
+    isSubscription = fields.Boolean(required=False)
+    budget_id = fields.Int(required=False, load_only=True)
+    subscription_id = fields.Int(required=False, load_only=True)
+
+class UpdateSubscriptionSchema(Schema):
+    icon_path = fields.Str(required=False)
 
 # this will include schema where we can see all of related transactions
 class BudgetSchema(PlainBudgetSchema):
