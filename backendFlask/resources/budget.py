@@ -65,8 +65,8 @@ class BudgetList(MethodView):
     @blp.arguments(UpdateBudgetSchema)
     @blp.response(201, BudgetSchema)
     def post(self, budget_data):
-        budget = BudgetModel(end_date=budget_data["start_date"] + timedelta(days=30),
-                             amount_avaiable=budget_data["budget_amount"], 
+        budget = BudgetModel(end_date=budget_data["start_date"] + timedelta(days=30), 
+                             amount_avaiable=budget_data["budget_amount"]-budget_data["amount_spent"],
                              **budget_data)
 
         try:

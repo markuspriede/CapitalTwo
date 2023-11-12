@@ -22,8 +22,9 @@ To create and run docker image (Make sure you have installed docker CLI)
 
 ```
 docker build -t flask-api .
-docker run -p 5005:5000 flask-api -w /app -v "$(pwd):/app" flask-api
+docker run -dp 5005:80 flask-api
 ```
+You can access on localhost:5005 if you run using the above docker command.
 
 Or run the following command to start the server:
 

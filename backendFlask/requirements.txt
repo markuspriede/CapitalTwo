@@ -2,6 +2,7 @@ flask==2.3.3
 flask-sqlalchemy
 flask-cors
 mysql-connector-python
+mysqlclient
 sqlalchemy
 flask-smorest
 python-dotenv
