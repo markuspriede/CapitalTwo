@@ -31,8 +31,8 @@ const CustomCard: React.FC<ICardProps> = ({
 
         <div className="flex items-center justify-center mb-2">
           {showLogo && <Image src={YoutubeIcon} alt="Youtube logo" className="w-6 h-6 mr-2" />}
-          <div className="font-bold text-xl">{title}</div>
-          <div className="font-bold text-xl ml-2">{price}</div>
+          <div className="font-bold text-xl mb-2">{title}</div>
+          <div className="font-bold text-xl ml-4">{price}</div>
         </div>
 
         <div className="text-gray-700 text-sm mb-2">

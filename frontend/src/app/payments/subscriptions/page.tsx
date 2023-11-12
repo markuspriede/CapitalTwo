@@ -50,12 +50,15 @@ const SubscriptionsPage: React.FC = () => {
 
   return (
     <div className="p-6">
-      
       <div className="mt-4">
-        <div className="flex flex-wrap justify-start gap-20 mt-4 mb-4">
-          <CustomCard {...card0} center/>
+      <div className="flex flex-wrap justify-start gap-20 mt-4 mb-4">
+          <CustomCard {...card0} center />
           <CustomCard {...card1} />
-          
+        </div>
+        <div className="flex justify-center mb-6">
+          <button className="bg-blue-200 text-blue-900 font-bold px-4 py-2 rounded-md w-64">
+            View Calendar
+          </button>
         </div>
       </div>
 
