@@ -17,7 +17,7 @@ const Transactions = () => {
     return {
       date: transaction.date,
       name: transaction.alias,
-      amount: `${transaction.budget.amount_spent}`,
+      amount: `${transaction.amount}`,
       id: transaction.id,
       subscription: transaction.isSubscription,
       budget: transaction.budget.category_name
