@@ -3,7 +3,7 @@ from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError
 from db import db
 from models import TransactionModel, BudgetModel
-from schemas import TransactionSchema
+from schemas import TransactionSchema, UpdateTransactionSchema
 
 blp = Blueprint("Transactions", "transactions", description="Operations on transactions")
 
@@ -19,6 +19,22 @@ class Transaction(MethodView):
         db.session.delete(transaction)
         db.session.commit()
         return {"message": "Transaction deleted"}, 200
+    
+    @blp.arguments(UpdateTransactionSchema)
+    @blp.response(200, TransactionSchema)
+    def put(self, transaction_data, transaction_id):
+        transaction = TransactionModel.query.get(transaction_id)
+
+        if "isSubscription" in transaction_data: # Update existing budget
+            transaction.isSubscription = transaction_data["isSubscription"]
+        if "budget_id" in transaction_data:
+            transaction.budget_id = transaction_data["budget_id"]
+        if "subscription_id" in transaction_data:
+            transaction.subscription_id = transaction_data["subscription_id"]
+        db.session.add(transaction)
+        db.session.commit()
+
+        return transaction
 
 @blp.route("/transaction")
 class TransactionList(MethodView):
@@ -33,12 +49,25 @@ class TransactionList(MethodView):
         budget = BudgetModel.query.get_or_404(transaction_data["budget_id"])
         budget.amount_spent += transaction_data["amount"] 
         budget.amount_avaiable -= transaction_data["amount"]
-        transaction = TransactionModel(**transaction_data)
+
+        subscription_id = transaction_data.get("subscription_id", None)
+        if subscription_id == "" or subscription_id == 0 or (transaction_data["isSubscription"] == False):
+            subscription_id = None
+
+        transaction = TransactionModel(
+            alias = transaction_data["alias"],
+            isSubscription = transaction_data["isSubscription"],
+            date = transaction_data["date"],
+            amount = transaction_data["amount"],
+            description = transaction_data["description"],
+            budget_id = transaction_data["budget_id"],
+            subscription_id=subscription_id)
+        
         try:
             db.session.add(transaction)
             db.session.add(budget)
             db.session.commit()
-        except SQLAlchemyError:
+        except SQLAlchemyError as e:
             abort(500, message="An error occurred creating the transaction.")
 
         return transaction

@@ -18,3 +18,14 @@ class TransactionModel(db.Model):
         db.Integer, db.ForeignKey("budgets.id"), unique=False, nullable=False
     )
     budget = db.relationship("BudgetModel", back_populates="transactions")
+
+    ## this is optional input -> made it nullable=True
+    subscription_id = db.Column(
+        db.Integer, db.ForeignKey("subscriptions.id", ondelete='SET NULL'), unique=False, nullable=True
+    )
+
+    subscription = db.relationship(
+        "SubscriptionModel",
+        back_populates="transactions",
+        primaryjoin="and_(TransactionModel.isSubscription==True, TransactionModel.subscription_id==SubscriptionModel.id)"
+    )

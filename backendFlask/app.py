@@ -2,6 +2,7 @@ from flask import Flask
 from flask_smorest import Api
 from resources.transaction import blp as BudgetBlueprint
 from resources.budget import blp as TransactionBlueprint
+from resources.subscription import blp as SubscriptionBlueprint
 from db import db
 from dotenv import load_dotenv 
 from flask_cors import CORS, cross_origin
@@ -46,5 +47,5 @@ def create_app(db_url=None):
 
     api.register_blueprint(BudgetBlueprint)
     api.register_blueprint(TransactionBlueprint)
-
+    api.register_blueprint(SubscriptionBlueprint)
     return app

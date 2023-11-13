@@ -11,7 +11,7 @@ class SubscriptionModel(db.Model):
     routine = db.Column(db.String(20), unique=False, nullable=False)
     description = db.Column(db.String(30), unique=False, nullable=False)
 
-    # the backend can look for the latest transaction to get sub_name and price c
+    # the backend can look for the latest transaction to get sub_name and price of subscription
     subscription_name = db.Column(db.String(20), unique=False, nullable=False)
     price = db.Column(db.Float(precision=2), unique=False, nullable=False)
 
