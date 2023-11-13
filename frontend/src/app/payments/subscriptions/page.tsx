@@ -50,14 +50,18 @@ const SubscriptionsPage: React.FC = () => {
 
   return (
     <div className="p-6">
-      
       <div className="mt-4">
-        <div className="flex flex-wrap justify-start gap-20 mt-4 mb-4">
-          <CustomCard {...card0} center/>
+      <div className="flex flex-wrap justify-start gap-20 mt-4 mb-4">
+          <CustomCard {...card0} center />
           <CustomCard {...card1} />
-          
+          </div>
+        <div className="flex justify-around mb-6 mr-40">
+          <button className="bg-blue-200 text-blue-900 font-bold px-4 py-2 rounded-md w-80">
+            View Calendar
+          </button>
         </div>
       </div>
+
 
       <div className="border-t border-gray-300 mt-10"></div>
       <h2 className="text-2xl font-bold mt-10">Subscription Management</h2>
@@ -75,6 +79,5 @@ const SubscriptionsPage: React.FC = () => {
     </div>
   );
 };
-
 
 export default SubscriptionsPage;
