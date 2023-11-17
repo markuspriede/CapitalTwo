@@ -17,8 +17,6 @@ const Header = () => {
     { name: "Budget & Planning", link: "/budgets" },
   ];
 
-  console.log(pathName);
-
 
   return <div>
       <div className="flex px-10">
