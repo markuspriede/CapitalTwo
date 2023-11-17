@@ -1,0 +1,7 @@
+@tailwind components;
+
+@layer components {
+  .selected {
+    @apply border-l-2 border-blue-600 bg-blue-100
+  }
+}
