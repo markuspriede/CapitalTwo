@@ -30,13 +30,13 @@ const Transactions = () => {
   }
 
   useEffect(() => {
-    fetch(`http://localhost/transaction`).then((res) => res.json()).then((data) => data.map(mapTransactionToTableCell)).then((transactions) => {
+    fetch(`http://3.128.31.44/transaction`).then((res) => res.json()).then((data) => data.map(mapTransactionToTableCell)).then((transactions) => {
       setTransactions(transactions);
     });
-  }, []);
+  }, [currentTransaction]);
 
   useEffect(() => {
-    fetch(`http://localhost/budget`).then((res) => res.json()).then((budgets) => {
+    fetch(`http://3.128.31.44/budget`).then((res) => res.json()).then((budgets) => {
       const newBudgets: string[] = [];
 
       budgets.map((budget: any) => {
@@ -48,7 +48,7 @@ const Transactions = () => {
   }, []);
 
   return <>
-    <SubscriptionModal showModal={showModal} setModal={setModal} transaction={currentTransaction} />
+    <SubscriptionModal showModal={showModal} setModal={setModal} setTransaction={setCurrentTransaction} transaction={currentTransaction} />
     <table className="table-fixed text-left shadow-md text-xs font-sans border-collapse">
       <thead>
         <tr className="bg-blue-100">
@@ -73,7 +73,7 @@ const Transactions = () => {
 
                 if (key === "subscription") {
                   return <td className="pl-3 pt-2 flex items-center" key={key}>
-                    <input key={key} onClick={() => openModal(transaction)} type="checkbox" value={value} />
+                    <input key={key} onClick={() => openModal(transaction)} type="checkbox" checked={value} onChange={() => {}} />
                     <p>Subscribe</p>
                   </td>
                 }

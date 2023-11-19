@@ -5,5 +5,8 @@ export interface ITransaction {
   ID: number,
   subscription: Boolean,
   category: string,
-  budget: string
+  budget: string,
+  id?: number,
+  budgetId: number,
+  subscriptionId: number
 }
