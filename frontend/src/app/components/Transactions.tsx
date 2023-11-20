@@ -13,6 +13,8 @@ const Transactions = () => {
 
   const [currentTransaction, setCurrentTransaction] = useState<ITransaction | null>(null);
 
+  const [refersh, setRefresh] = useState(0);
+
   function mapTransactionToTableCell(transaction: any) {
     return {
       date: transaction.date,
@@ -29,11 +31,29 @@ const Transactions = () => {
     setModal(true);
   }
 
+  function changeBudget(budget: string, transaction: ITransaction) {
+    fetch(`http://3.128.31.44/budget`).then((res) => res.json()).then((currentBudgets) => {
+      fetch(`http://3.128.31.44/transaction/${transaction.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "isSubscription": transaction.subscription,
+          "budget_id": currentBudgets[budgets.indexOf(budget)].id,
+          "subscription_id": transaction.subscriptionId
+        })
+      }).then((res) => res.json()).then(() => {
+        setRefresh((refresh) => refersh + 1);
+      })
+    })
+  }
+
   useEffect(() => {
     fetch(`http://3.128.31.44/transaction`).then((res) => res.json()).then((data) => data.map(mapTransactionToTableCell)).then((transactions) => {
       setTransactions(transactions);
     });
-  }, [currentTransaction]);
+  }, [currentTransaction, refersh]);
 
   useEffect(() => {
     fetch(`http://3.128.31.44/budget`).then((res) => res.json()).then((budgets) => {
@@ -67,7 +87,7 @@ const Transactions = () => {
               { Object.entries(transaction).map(([key, value]) => {
                 if (key === "budget") {
                   return <td className="pl-3" key={key}>
-                    <TableDropdown budgets={budgets} />
+                    <TableDropdown budgets={budgets} changeBudget={changeBudget} transaction={transaction} />
                   </td>
                 }
 
