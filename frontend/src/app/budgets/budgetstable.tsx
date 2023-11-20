@@ -22,7 +22,7 @@ const mapBudgetToTableCell = (budget: any) => {
     category: budget.category_name || '', 
     assigned: `$${(budget.budget_amount || 0).toFixed(2)}`, 
     spent: `$${(budget.amount_spent || 0).toFixed(2)}`, 
-    available: `$${(budget.amount_avaiable || 0).toFixed(2)}`, 
+    available: `$${((budget.budget_amount - budget.amount_spent) || 0).toFixed(2)}`, 
   };
 };
 
