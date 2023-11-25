@@ -5,7 +5,7 @@ import SubscriptionModal from "./SubscriptionModal";
 
 const Transactions = () => {
 
-  const [budgets, setBudgets] = useState<string[]>([]);
+  const [budgets, setBudgets] = useState<any[]>([]);
 
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
 
@@ -31,21 +31,19 @@ const Transactions = () => {
     setModal(true);
   }
 
-  function changeBudget(budget: string, transaction: ITransaction) {
-    fetch(`http://3.128.31.44/budget`).then((res) => res.json()).then((currentBudgets) => {
-      fetch(`http://3.128.31.44/transaction/${transaction.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          "isSubscription": transaction.subscription,
-          "budget_id": currentBudgets[budgets.indexOf(budget)].id,
-          "subscription_id": transaction.subscriptionId
-        })
-      }).then((res) => res.json()).then(() => {
-        setRefresh((refresh) => refersh + 1);
+  function changeBudget(budget: any, transaction: ITransaction) {
+    fetch(`http://3.128.31.44/transaction/${transaction.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "isSubscription": transaction.subscription,
+        "budget_id": budget.category_name === "N/A" ? -1 : budgets[budgets.indexOf(budget)].id,
+        "subscription_id": transaction.subscriptionId
       })
+    }).then((res) => res.json()).then(() => {
+      setRefresh((refresh) => refresh + 1);
     })
   }
 
@@ -57,13 +55,13 @@ const Transactions = () => {
 
   useEffect(() => {
     fetch(`http://3.128.31.44/budget`).then((res) => res.json()).then((budgets) => {
-      const newBudgets: string[] = [];
+      const newBudgets: any[] = [];
 
       budgets.map((budget: any) => {
-        newBudgets.push(budget.category_name);
+        newBudgets.push(budget);
       });
 
-      setBudgets(newBudgets);
+      setBudgets([{ category_name: "N/A" }, ...newBudgets]);
     });
   }, []);
 
