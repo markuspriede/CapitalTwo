@@ -33,9 +33,14 @@ class UpdateBudgetSchema(Schema):
     category_name = fields.Str()
     budget_amount = fields.Float()
     amount_spent = fields.Float()
+
+class UserSchema(Schema):
+    id = fields.Int(dump_only=True)
+    username = fields.Str(required=True)
+    password = fields.Str(required=True, load_only=True) # only for input, won't send password back to user
     
 class TransactionSchema(PlainTransactionSchema):
-    budget_id = fields.Int(required=True, load_only=True)
+    budget_id = fields.Int(required=False, load_only=True)
     budget =  fields.Nested(PlainBudgetSchema(), dump_only=True) # use only for returning not when receiving
     subscription_id = fields.Int(required=False, load_only=True)
     subscription = fields.Nested(PlainSubscriptionSchema(), dump_only=True)

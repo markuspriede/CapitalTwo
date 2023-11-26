@@ -27,13 +27,32 @@ class Transaction(MethodView):
 
         if "isSubscription" in transaction_data: # Update existing budget
             transaction.isSubscription = transaction_data["isSubscription"]
+
         if "budget_id" in transaction_data:
+
+            ## First update the current budget associated to current transaction 
+            budget = BudgetModel.query.get(transaction.budget_id)
+            if budget != None:
+                ## Need to subtract from amount_spent, add to amount_avaiable since it's no longer asscoiated with current budget
+                budget.amount_avaiable += transaction.amount
+                budget.amount_spent -= transaction.amount
+
+            # Transition to a new budget
             transaction.budget_id = transaction_data["budget_id"]
+            budget = BudgetModel.query.get_or_404(transaction_data["budget_id"])
+            budget.amount_spent += transaction.amount
+            budget.amount_avaiable -= transaction.amount
+            db.session.add(budget)
+
         if "subscription_id" in transaction_data:
             transaction.subscription_id = transaction_data["subscription_id"]
-        db.session.add(transaction)
-        db.session.commit()
-
+        
+        try:
+            db.session.add(transaction)
+            db.session.commit()
+        except SQLAlchemyError as e:
+            abort(500, message="Unable to update the transaction.")
+        
         return transaction
 
 @blp.route("/transaction")
@@ -46,12 +65,20 @@ class TransactionList(MethodView):
     @blp.arguments(TransactionSchema)
     @blp.response(201, TransactionSchema)
     def post(self, transaction_data):
-        budget = BudgetModel.query.get_or_404(transaction_data["budget_id"])
-        budget.amount_spent += transaction_data["amount"] 
-        budget.amount_avaiable -= transaction_data["amount"]
+
+        budget_id =  transaction_data.get("budget_id", None)
+        if budget_id == "" or budget_id == -1:
+            # case for not associating with budget
+            budget_id = None
+        else:
+            # case when associating with budget
+            budget = BudgetModel.query.get_or_404(transaction_data["budget_id"])
+            budget.amount_spent += transaction_data["amount"] 
+            budget.amount_avaiable -= transaction_data["amount"]
+            db.session.add(budget)
 
         subscription_id = transaction_data.get("subscription_id", None)
-        if subscription_id == "" or subscription_id == 0 or (transaction_data["isSubscription"] == False):
+        if subscription_id == "" or subscription_id == -1 or (transaction_data["isSubscription"] == False):
             subscription_id = None
 
         transaction = TransactionModel(
@@ -60,12 +87,11 @@ class TransactionList(MethodView):
             date = transaction_data["date"],
             amount = transaction_data["amount"],
             description = transaction_data["description"],
-            budget_id = transaction_data["budget_id"],
+            budget_id = budget_id,
             subscription_id=subscription_id)
         
         try:
             db.session.add(transaction)
-            db.session.add(budget)
             db.session.commit()
         except SQLAlchemyError as e:
             abort(500, message="An error occurred creating the transaction.")
