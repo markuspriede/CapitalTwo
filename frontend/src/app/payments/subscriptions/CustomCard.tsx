@@ -51,7 +51,7 @@ const CustomCard: React.FC<ICardProps> = ({
       )}
 
     <div className={`${center ? 'mb-2' : 'flex items-start justify-center mb-2'}`}>
-      {showLogo && <Image src={YoutubeIcon} alt="Youtube logo"  width={24} height={24} className="w-6 h-6 mr-2" />}
+      {showLogo && <Image src={YoutubeIcon} alt="Youtube logo" className="w-6 h-6 mr-2" />}
       <div className="flex-grow">
       <div className={`${title === 'Subscription Total' ? 'text-xl font-normal' : 'font-bold text-lg'}`}>
       {title}</div>
