@@ -15,6 +15,8 @@ const Header = () => {
     { name: "Home", link: "/" },
     { name: "Transfers & Payments", link: "/payments" },
     { name: "Budget & Planning", link: "/budgets" },
+    { name: "Authentication", link: "/auth" },
+
   ];
 
 
@@ -34,7 +36,7 @@ const Header = () => {
              </div>
             </Link>
           </li>
-        ))}
+        ))} 
       </ul>
     </div>
 }
