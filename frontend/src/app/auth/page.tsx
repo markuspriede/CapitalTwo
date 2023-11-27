@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import CapitalOne from '../icons/Capital-One-Logo.png';
+import SignUpPic from '../icons/SignUp-Pic.png';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './auth.module.css'; 
@@ -58,6 +58,7 @@ const AuthPage: React.FC = () => {
     borderRadius: '20px',
     cursor: 'pointer',
     marginBottom: '20px',
+    marginRight:'30px',
   };
 
   const linkStyle: React.CSSProperties = {
@@ -72,8 +73,8 @@ const AuthPage: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
-      <div style={{ flex: 1, padding: '20px', height: '50vh' }}>
-        <Image src={CapitalOne} alt="photo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+      <div style={{ flex: 1, paddingLeft: '40px', overflow: 'hidden' }}>
+        <Image src={SignUpPic} alt="credit wise photo" style={{ width: '80%', height: '75%', objectFit: 'cover' }} />
       </div>
       <div style={{ flex: 1, padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
         <h3 style={{ fontWeight: 'bold', fontSize: '30px', marginBottom: '40px', marginTop: '40px' }}>Sign In</h3>
