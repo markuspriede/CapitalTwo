@@ -1,3 +1,4 @@
 from models.budget_model import BudgetModel
 from models.transaction_model import TransactionModel
 from models.subscription_model import SubscriptionModel
+from models.user_model import UserModel

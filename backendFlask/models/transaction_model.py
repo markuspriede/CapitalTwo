@@ -15,7 +15,7 @@ class TransactionModel(db.Model):
     description = db.Column(db.String(80), unique=False)
    
     budget_id = db.Column(
-        db.Integer, db.ForeignKey("budgets.id"), unique=False, nullable=False
+        db.Integer, db.ForeignKey("budgets.id", ondelete='SET NULL'), unique=False, nullable=True
     )
     budget = db.relationship("BudgetModel", back_populates="transactions")
 

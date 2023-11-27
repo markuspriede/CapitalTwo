@@ -2,6 +2,7 @@ from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from datetime import timedelta
+from flask_jwt_extended import jwt_required
 
 from db import db
 from models import BudgetModel
@@ -62,6 +63,7 @@ class BudgetList(MethodView):
 
     # POST method to create a new budget.
     # Accepts budget details, validates them using UpdateBudgetSchema, and inserts the new budget into the database.
+    # @jwt_required()
     @blp.arguments(UpdateBudgetSchema)
     @blp.response(201, BudgetSchema)
     def post(self, budget_data):
