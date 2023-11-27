@@ -37,15 +37,23 @@ class Transaction(MethodView):
                 budget.amount_avaiable += transaction.amount
                 budget.amount_spent -= transaction.amount
 
-            # Transition to a new budget
-            transaction.budget_id = transaction_data["budget_id"]
-            budget = BudgetModel.query.get_or_404(transaction_data["budget_id"])
-            budget.amount_spent += transaction.amount
-            budget.amount_avaiable -= transaction.amount
+            if transaction_data["budget_id"] == -1 or transaction_data["budget_id"] == "":
+                newId = None
+                transaction.budget_id = newId
+            else:
+                # Transition to a new budget
+                transaction.budget_id = transaction_data["budget_id"]
+                budget = BudgetModel.query.get_or_404(transaction_data["budget_id"])
+                budget.amount_spent += transaction.amount
+                budget.amount_avaiable -= transaction.amount
             db.session.add(budget)
 
         if "subscription_id" in transaction_data:
-            transaction.subscription_id = transaction_data["subscription_id"]
+            if transaction_data["subscription_id"] == -1 or transaction_data["subscription_id"] == "":
+                newId = None
+                transaction.subscription_id = newId
+            else:
+                transaction.subscription_id = transaction_data["subscription_id"]
         
         try:
             db.session.add(transaction)

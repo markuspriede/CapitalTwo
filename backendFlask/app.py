@@ -53,7 +53,7 @@ def create_app(db_url=None):
     }
     
     # Confiuring database
-    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:SteveAustin316!@localhost:3306/capitalTwo"
+    app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv("DATABASE_URL","sqlite:///data.db")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["PROPAGATE_EXCEPTIONS"] = True
     db.init_app(app)
