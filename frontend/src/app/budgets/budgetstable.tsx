@@ -28,7 +28,7 @@ const mapBudgetToTableCell = (budget: any) => {
 
 
   useEffect(() => {
-    fetch(`http://localhost/budget`).then((res) => res.json()).then((data) => data.map(mapBudgetToTableCell)).then((budget) => {
+    fetch(`http://3.84.112.106/budget`).then((res) => res.json()).then((data) => data.map(mapBudgetToTableCell)).then((budget) => {
       setBudgets(budget);
     }).catch((error) => console.error('Error fetching data:', error));;
   }, []);
@@ -60,7 +60,7 @@ const mapBudgetToTableCell = (budget: any) => {
 
     const { category, assigned, spent, available } = editedBudget;
   
-    fetch(`http://localhost/budget/${id}`, {
+    fetch(`http://3.84.112.106/budget/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ const mapBudgetToTableCell = (budget: any) => {
   const deleteItem = (id: number) => {
     // console.log(`Deleted item with ID: ${id}`);
 
-    fetch(`http://localhost/budget/${id}`, {
+    fetch(`http://3.84.112.106/budget/${id}`, {
       method: 'DELETE' 
     })
       .then(() => {
@@ -106,7 +106,7 @@ const mapBudgetToTableCell = (budget: any) => {
       amount_spent: 0, 
     };
 
-    fetch(`http://localhost/budget`, {
+    fetch(`http://3.84.112.106/budget`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
