@@ -22,7 +22,7 @@ const Transactions = () => {
       amount: `${transaction.amount}`,
       id: transaction.id,
       subscription: transaction.isSubscription,
-      budget: transaction.budget.category_name
+      budget: transaction.budget ? transaction.budget.category_name : "N/A"
     }
   }
 
