@@ -16,7 +16,7 @@ const SubscriptionModal = (props: ISubscriptionModal) => {
   }
 
   function addSubscription() {
-    fetch(`http://3.128.31.44/subscription`, {
+    fetch(`http://3.84.112.106/subscription`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +29,7 @@ const SubscriptionModal = (props: ISubscriptionModal) => {
         "price": `${props.transaction?.amount}`
       })
     }).then((res) => res.json()).then((data) => {
-      fetch(`http://3.128.31.44/transaction/${props.transaction?.id}`, {
+      fetch(`http://3.84.112.106/transaction/${props.transaction?.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -48,11 +48,11 @@ const SubscriptionModal = (props: ISubscriptionModal) => {
   }
 
   function removeSubscription() {
-    fetch(`http://3.128.31.44/subscription`).then((res) => res.json()).then((subs) => {
+    fetch(`http://3.84.112.106/subscription`).then((res) => res.json()).then((subs) => {
       subs.map((sub: any) => {
         sub.transactions.map((transaction: ITransaction) => {
           if (transaction.id === props.transaction?.id) {
-            fetch(`http://3.128.31.44/subscription/${sub.id}`, {
+            fetch(`http://3.84.112.106/subscription/${sub.id}`, {
               method: "DELETE"
             }).then((res) => res.json()).then(() => {
               props.setTransaction(null);

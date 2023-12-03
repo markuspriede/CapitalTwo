@@ -32,7 +32,7 @@ const Transactions = () => {
   }
 
   function changeBudget(budget: any, transaction: ITransaction) {
-    fetch(`http://3.128.31.44/transaction/${transaction.id}`, {
+    fetch(`http://3.84.112.106/transaction/${transaction.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -48,13 +48,13 @@ const Transactions = () => {
   }
 
   useEffect(() => {
-    fetch(`http://3.128.31.44/transaction`).then((res) => res.json()).then((data) => data.map(mapTransactionToTableCell)).then((transactions) => {
+    fetch(`http://3.84.112.106/transaction`).then((res) => res.json()).then((data) => data.map(mapTransactionToTableCell)).then((transactions) => {
       setTransactions(transactions);
     });
   }, [currentTransaction, refersh]);
 
   useEffect(() => {
-    fetch(`http://3.128.31.44/budget`).then((res) => res.json()).then((budgets) => {
+    fetch(`http://3.84.112.106/budget`).then((res) => res.json()).then((budgets) => {
       const newBudgets: any[] = [];
 
       budgets.map((budget: any) => {
