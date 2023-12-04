@@ -38,6 +38,7 @@ class UserSchema(Schema):
     id = fields.Int(dump_only=True)
     username = fields.Str(required=True)
     password = fields.Str(required=True, load_only=True) # only for input, won't send password back to user
+    ssn = fields.Str(required=True, load_only=True)
     
 class TransactionSchema(PlainTransactionSchema):
     budget_id = fields.Int(required=False, load_only=True)
