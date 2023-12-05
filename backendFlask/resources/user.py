@@ -19,7 +19,7 @@ class UserRegister(MethodView):
         
         user = UserModel(
             username = user_data["username"],
-            password = pbkdf2_sha256.hash(user_data["password"])
+            password = pbkdf2_sha256.hash(user_data["password"]),
             ssn = pbkdf2_sha256.hash(user_data["ssn"])
         )
 
