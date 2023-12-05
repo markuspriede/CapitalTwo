@@ -26,10 +26,19 @@ class Transaction(MethodView):
         transaction = TransactionModel.query.get(transaction_id)
 
         if "isSubscription" in transaction_data: # Update existing budget
-            transaction.isSubscription = transaction_data["isSubscription"]
+            allTransactions = TransactionModel.query.all()
+            for trans in allTransactions:
+                if trans.alias == transaction.alias:
+                    trans.isSubscription = transaction_data["isSubscription"]
+                    if "subscription_id" in transaction_data:
+                        if transaction_data["subscription_id"] == -1 or transaction_data["subscription_id"] == "":
+                            newId = None
+                            trans.subscription_id = newId
+                        else:
+                            trans.subscription_id = transaction_data["subscription_id"]
+                db.session.add(trans)
 
         if "budget_id" in transaction_data:
-
             ## First update the current budget associated to current transaction 
             budget = BudgetModel.query.get(transaction.budget_id)
             if budget != None:
@@ -48,13 +57,6 @@ class Transaction(MethodView):
                 budget.amount_avaiable -= transaction.amount
             db.session.add(budget)
 
-        if "subscription_id" in transaction_data:
-            if transaction_data["subscription_id"] == -1 or transaction_data["subscription_id"] == "":
-                newId = None
-                transaction.subscription_id = newId
-            else:
-                transaction.subscription_id = transaction_data["subscription_id"]
-        
         try:
             db.session.add(transaction)
             db.session.commit()
