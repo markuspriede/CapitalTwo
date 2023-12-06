@@ -10,13 +10,21 @@ import Image from "next/image";
 const Header = () => {
 
   const pathName = usePathname();
+   // List of pages where the header should be hidden
+   const pagesWithoutHeader = ['/', '/enrollment'];
+
+   // Check if the current pathname is in the list of pages without header
+   const shouldHideHeader = pagesWithoutHeader.includes(pathName);
+ 
+   // If the header should be hidden, return null
+   if (shouldHideHeader) {
+     return null;
+   }
 
   const headerItems = [
-    { name: "Home", link: "/" },
+    { name: "Home", link: "/home" },
     { name: "Transfers & Payments", link: "/payments" },
     { name: "Budget & Planning", link: "/budgets" },
-    { name: "Authentication", link: "/auth" },
-
   ];
 
 
