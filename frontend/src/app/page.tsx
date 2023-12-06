@@ -66,6 +66,7 @@ const AuthPage: React.FC = () => {
 
   const linkStyle: React.CSSProperties = {
     color: '#0070f3',
+    fontSize: '20px',
     textDecoration: 'underline',
     cursor: 'pointer',
     marginTop: '25px',
@@ -147,10 +148,13 @@ const AuthPage: React.FC = () => {
         <a style={linkStyle} onClick={() => console.log('Forgot Username or Password clicked')}>
           Forgot Username or Password?
         </a>
-        <Link href="/enrollment" passHref>
-          <a className={`py-3 pl-2 pr-3 ${pathName === '/enrollment' ? styles.selected : ''}`}>
+        <Link
+          href="/enrollment"
+          passHref
+          className={`py-3 pl-2 pr-3 ${pathName === '/enrollment' ? styles.selected : ''}`} style={linkStyle}>
+          
           Set Up Online Access
-          </a>
+          
         </Link>
       </div>
     </div>
