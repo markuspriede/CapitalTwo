@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import TableDropdown from "./TableDropdown";
-import { ITransaction } from "../types/Transaction";
+import { ITransaction } from "../types/Types";
 import SubscriptionModal from "./SubscriptionModal";
 
 const Transactions = () => {

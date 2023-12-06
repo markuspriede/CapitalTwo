@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ITransaction } from "../types/Transaction";
+import { ITransaction } from "../types/Types";
 
 interface ITableDropdownProps {
   transaction: ITransaction,
