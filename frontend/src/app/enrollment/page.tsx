@@ -1,7 +1,9 @@
 'use client'
 import React from 'react';
+import { useRouter } from 'next/navigation'
 
 const EnrollmentPage: React.FC = () => {
+  const router = useRouter();
 
   const linkStyle: React.CSSProperties = {
     color: '#0070f3',
@@ -10,6 +12,15 @@ const EnrollmentPage: React.FC = () => {
     marginTop: '5px',
     marginBottom: '5px',
     display: 'block',
+  };
+
+  const handleGetStartedClick = (event: React.FormEvent) => {
+    event.preventDefault(); // Prevents the default form submission behavior
+
+    // Additional logic can be added here if needed
+
+    // Navigate back to the sign-in page
+    router.push('/'); // Replace with the actual path of your sign-in page
   };
 
   return (
@@ -22,7 +33,7 @@ const EnrollmentPage: React.FC = () => {
           Enter your personal information.
         </h2>
 
-        <form>
+        <form onSubmit={handleGetStartedClick}>
           <div style={{ marginBottom: '50px', marginTop:'40px' }}>
             <label htmlFor="lastName">Last Name:</label>
             <input
