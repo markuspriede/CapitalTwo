@@ -3,14 +3,9 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import { FaEdit, FaTrash, FaCheck, FaTimes } from 'react-icons/fa';
+import { IBudgetItem } from '../types/Types';
+const apiLink = "http://3.84.112.106";
 
-interface IBudgetItem {
-  id: number;
-  category: string,
-  assigned: string,
-  spent: string,
-  available: string,
-}
 
 const BudgetTable: React.FC = () => {
   const [budgets, setBudgets] = useState<IBudgetItem[]>([]);
@@ -30,7 +25,7 @@ const mapBudgetToTableCell = (budget: any) => {
   useEffect(() => {
     fetch(`http://3.84.112.106/budget`).then((res) => res.json()).then((data) => data.map(mapBudgetToTableCell)).then((budget) => {
       setBudgets(budget);
-    }).catch((error) => console.error('Error fetching data:', error));;
+    }).catch((error) => console.error('Error fetching data:', error));
   }, []);
 
   useEffect(() => {
