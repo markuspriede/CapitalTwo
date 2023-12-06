@@ -76,8 +76,8 @@ const AuthPage: React.FC = () => {
   
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
-      <div style={{ flex: 1, paddingLeft: '40px', overflow: 'hidden' }}>
-        <Image src={SignUpPic} alt="credit wise photo" style={{ width: '80%', height: '75%', objectFit: 'cover' }} />
+      <div style={{ flex: 1, paddingLeft: '40px', overflow: 'hidden',marginTop: '50px' }}>
+        <Image src={SignUpPic} alt="credit wise photo" style={{ width: '90%', height: '90%', objectFit: 'cover' }} />
       </div>
       <div style={{ flex: 1, padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
         <h3 style={{ fontWeight: 'bold', fontSize: '30px', marginBottom: '40px', marginTop: '40px' }}>Sign In</h3>
@@ -148,9 +148,9 @@ const AuthPage: React.FC = () => {
           Forgot Username or Password?
         </a>
         <Link href="/enrollment" passHref>
-          <div className={`py-3 pl-2 pr-3 ${pathName === '/enrollment' ? styles.selected : ''}`}>
-            Set Up Online Access
-          </div>
+          <a className={`py-3 pl-2 pr-3 ${pathName === '/enrollment' ? styles.selected : ''}`}>
+          Set Up Online Access
+          </a>
         </Link>
       </div>
     </div>
@@ -158,3 +158,4 @@ const AuthPage: React.FC = () => {
 };
 
 export default AuthPage;
+
