@@ -1,38 +1,35 @@
+'use client'
+
 import React from 'react';
 import SubscriptionCard from './SubscriptionCard';
 import AllSubscriptions from './AllSubscriptions';
 import SubTotalCard from './SubTotalCard';
+import { useState, useEffect } from 'react';
 
 
 const SubscriptionsPage: React.FC = () => {
-  const card0 = {
-    title: 'Subscription Total',
-    price: '$65.05',
-    subTitle: 'Calculated to today',
-    subPlan: '',
-    showLogo: false,
-    customHeightCard0: true,
-    customWidthCard0: true,
-  };
+  const [subscriptionTotal, setSubscriptionTotal] = useState(0)
 
-  const card1 = {
-    title: 'YouTube Premium',
-    price: '$10.00',
-    subTitle: '09/15-10/14',  
-    subPlan: 'Monthly',
-    comingUp: 'Coming Up', 
-    showLogo: false,  
-    customHeightCard1: true,
-    customWidthCard1: true,
-  };
+  useEffect(() => {
+    fetch("http://3.84.112.106/subscription")
+  .then(res => {
+    console.log(res.status);
+    return res.json()
+  })
+  .then(data => {
+    // console.log(data)
+    const prices = data.map((sub: { price: number; }) => sub.price);
+    const total = prices.reduce((acc: number, price: number) => acc + price, 0)
+    setSubscriptionTotal(total)
+  })
+}, [])
+
 
   return (
     <div className="p-6">
     <div className="mt-4">
       <div className="flex flex-wrap justify-start gap-20 mt-4 mb-4">
-        <SubTotalCard title={'Subscription Total'} priceDisplay={83.00} subtitle={'Calculated Today'}/>
-        {/* <div><CustomCard {...card0} center /></div>
-        <div><CustomCard {...card1} /></div> */}
+        <SubTotalCard title={'Subscription Total'} priceDisplay={subscriptionTotal} subtitle={'Calculated Today'}/>
       </div>
       <div className="flex justify-start mb-4 ml-96">
         <button className="bg-blue-200 text-blue-900 font-bold px-4 py-2 rounded-md w-96">
