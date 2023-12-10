@@ -3,7 +3,12 @@ import TableDropdown from "./TableDropdown";
 import { ITransaction } from "../types/Types";
 import SubscriptionModal from "./SubscriptionModal";
 
-const Transactions = () => {
+interface ITransactionTableProps {
+  refresh: Number,
+  setRefresh: any
+}
+
+const Transactions = (props: ITransactionTableProps) => {
 
   const [budgets, setBudgets] = useState<any[]>([]);
 
@@ -12,8 +17,6 @@ const Transactions = () => {
   const [showModal, setModal] = useState<boolean>(false);
 
   const [currentTransaction, setCurrentTransaction] = useState<ITransaction | null>(null);
-
-  const [refersh, setRefresh] = useState(0);
 
   function mapTransactionToTableCell(transaction: any) {
     return {
@@ -43,7 +46,7 @@ const Transactions = () => {
         "subscription_id": transaction.subscriptionId
       })
     }).then((res) => res.json()).then(() => {
-      setRefresh((refresh) => refresh + 1);
+      props.setRefresh((refresh: any) => refresh + 1);
     })
   }
 
@@ -51,7 +54,7 @@ const Transactions = () => {
     fetch(`http://3.84.112.106/transaction`).then((res) => res.json()).then((data) => data.map(mapTransactionToTableCell)).then((transactions) => {
       setTransactions(transactions);
     });
-  }, [currentTransaction, refersh]);
+  }, [currentTransaction, props.refresh]);
 
   useEffect(() => {
     fetch(`http://3.84.112.106/budget`).then((res) => res.json()).then((budgets) => {
