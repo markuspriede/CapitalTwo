@@ -83,7 +83,7 @@ const Transactions = (props: ITransactionTableProps) => {
       </thead>
       <tbody>
         {
-          transactions.map((transaction, key) => {
+          transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((transaction, key) => {
             return <tr key={key} className="border-t-2">
               { Object.entries(transaction).map(([key, value]) => {
                 if (key === "budget") {
