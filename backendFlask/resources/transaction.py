@@ -5,16 +5,32 @@ from db import db
 from models import TransactionModel, BudgetModel
 from schemas import TransactionSchema, UpdateTransactionSchema
 
+
 blp = Blueprint("Transactions", "transactions", description="Operations on transactions")
 
 @blp.route("/transaction/<string:transaction_id>")
 class Transaction(MethodView):
+    """
+    Class-based view handling the transaction-related operations.
+    Flask MethodView is used to create RESTful APIs by defining methods for HTTP verbs.
+    """
+
     @blp.response(200, TransactionSchema)
     def get(self, transaction_id):
+        """
+        Retrieves a specific transaction by its unique ID.
+        Uses SQLAlchemy ORM to query the database.
+        Return a serialized transaction object conforming to TransactionSchema.
+        """
         transaction = TransactionModel.query.get_or_404(transaction_id)
         return transaction
 
     def delete(self, transaction_id):
+        """
+        Deletes a transaction based on the provided transaction ID.
+        SQLAlchemy session is used for database operations.
+        Commits the changes to the database after deletion.
+        """
         transaction = TransactionModel.query.get_or_404(transaction_id)
         db.session.delete(transaction)
         db.session.commit()
@@ -23,72 +39,81 @@ class Transaction(MethodView):
     @blp.arguments(UpdateTransactionSchema)
     @blp.response(200, TransactionSchema)
     def put(self, transaction_data, transaction_id):
+        """
+        Updates an existing transaction.
+        Accepts transaction data validated against UpdateTransactionSchema.
+        Handles conditional updates based on the provided fields.
+        Performs database updates in a transaction-safe manner using SQLAlchemy.
+        """
         transaction = TransactionModel.query.get(transaction_id)
 
-        if "isSubscription" in transaction_data: # Update existing budget
+        # Handle subscription-related updates.
+        if "isSubscription" in transaction_data:
             allTransactions = TransactionModel.query.all()
             for trans in allTransactions:
                 if trans.alias == transaction.alias:
                     trans.isSubscription = transaction_data["isSubscription"]
                     if "subscription_id" in transaction_data:
-                        if transaction_data["subscription_id"] == -1 or transaction_data["subscription_id"] == "":
-                            newId = None
-                            trans.subscription_id = newId
-                        else:
-                            trans.subscription_id = transaction_data["subscription_id"]
+                        trans.subscription_id = transaction_data["subscription_id"] if transaction_data["subscription_id"] not in [-1, ""] else None
                 db.session.add(trans)
 
+        # Budget-related updates to adjust the budget allocations.
         if "budget_id" in transaction_data:
-            ## First update the current budget associated to current transaction 
             budget = BudgetModel.query.get(transaction.budget_id)
-            if budget != None:
-                ## Need to subtract from amount_spent, add to amount_avaiable since it's no longer asscoiated with current budget
+            if budget:
                 budget.amount_avaiable += transaction.amount
                 budget.amount_spent -= transaction.amount
 
-            if transaction_data["budget_id"] == -1 or transaction_data["budget_id"] == "":
-                newId = None
-                transaction.budget_id = newId
-            else:
-                # Transition to a new budget
-                transaction.budget_id = transaction_data["budget_id"]
+            transaction.budget_id = transaction_data["budget_id"] if transaction_data["budget_id"] not in [-1, ""] else None
+            if transaction.budget_id:
                 budget = BudgetModel.query.get_or_404(transaction_data["budget_id"])
                 budget.amount_spent += transaction.amount
                 budget.amount_avaiable -= transaction.amount
             db.session.add(budget)
 
+        # Commit transaction updates to the database.
         try:
             db.session.add(transaction)
             db.session.commit()
-        except SQLAlchemyError as e:
+        except SQLAlchemyError:
             abort(500, message="Unable to update the transaction.")
         
         return transaction
 
 @blp.route("/transaction")
 class TransactionList(MethodView):
+    """
+    Class-based view for handling operations on the list of transactions.
+    """
+
     @blp.response(200, TransactionSchema(many=True))
     def get(self):
-        # will return all of the transactions
+        """
+        Retrieves all transactions from the database.
+        Uses SQLAlchemy to query and serialize the data.
+        """
         return TransactionModel.query.all()
 
     @blp.arguments(TransactionSchema)
     @blp.response(201, TransactionSchema)
     def post(self, transaction_data):
-
-        budget_id =  transaction_data.get("budget_id", None)
-        if budget_id == "" or budget_id == -1:
-            # case for not associating with budget
+        """
+        Creates a new transaction.
+        Accepts and validates data against TransactionSchema.
+        Handles budget and subscription associations.
+        Commits the new transaction to the database.
+        """
+        budget_id = transaction_data.get("budget_id", None)
+        if budget_id in ["", -1]:
             budget_id = None
         else:
-            # case when associating with budget
             budget = BudgetModel.query.get_or_404(transaction_data["budget_id"])
-            budget.amount_spent += transaction_data["amount"] 
+            budget.amount_spent += transaction_data["amount"]
             budget.amount_avaiable -= transaction_data["amount"]
             db.session.add(budget)
 
         subscription_id = transaction_data.get("subscription_id", None)
-        if subscription_id == "" or subscription_id == -1 or (transaction_data["isSubscription"] == False):
+        if subscription_id in ["", -1] or not transaction_data["isSubscription"]:
             subscription_id = None
 
         transaction = TransactionModel(
@@ -103,7 +128,7 @@ class TransactionList(MethodView):
         try:
             db.session.add(transaction)
             db.session.commit()
-        except SQLAlchemyError as e:
+        except SQLAlchemyError:
             abort(500, message="An error occurred creating the transaction.")
 
         return transaction
