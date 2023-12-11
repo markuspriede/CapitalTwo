@@ -36,7 +36,7 @@ const BudgetChart = (props: IBudgetChartProps) => {
           <div className="bg-blue-700 h-2 rounded-full" style={{ width: `${percentage}%` }}></div>
         </div>
         <div className="flex justify-end mt-1">
-          <p className="text-sm text-slate-500">{`${budget.amount_spent} / ${budget.budget_amount}`}</p>
+          <p className="text-sm text-slate-500">{`$${budget.amount_spent.toFixed(2)} / $${budget.budget_amount.toFixed(2)}`}</p>
         </div>
       </div>
       })
