@@ -162,9 +162,10 @@ const mapBudgetToTableCell = (budget: any) => {
         <td className={`pl-3 border-b ${editingId === budget.id ? 'text-gray-500' : ''}`}>
           {budget.spent}
         </td>
-        <td className={`pl-3 border-b ${editingId === budget.id ? 'text-gray-500' : ''}`}>
+        <td className={`pl-3 border-b ${editingId === budget.id ? 'text-gray-500' : ''} ${parseFloat(budget.available.replace('$', '')) < 0 ? 'text-red-500' : ''}`}>
           {budget.available}
         </td>
+
         <td className="py-2 pl-3 flex items-center space-x-2">
           {editingId === budget.id ? (
             <>

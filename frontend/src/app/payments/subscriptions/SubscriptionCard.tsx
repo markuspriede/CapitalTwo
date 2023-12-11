@@ -8,8 +8,8 @@ const SubscriptionCard: React.FC<ICustomSubCard> = (props: ICustomSubCard) => {
   const renderIcon = () => {
     if (props.icon_path === 'String' || props.icon_path.trim() === '') {
       return (
-        <div className="h-[58px] w-[58px] flex items-center justify-center bg-blue-300 text-white rounded-full text-3xl">
-          {props.subscription_name.charAt(0).toUpperCase()}
+        <div className="h-[58px] w-[58px] flex items-center justify-center bg-blue-300 text-white rounded-full text-xl">
+          {props.subscription_name.slice(0, 3).toUpperCase()}
         </div>
       );
     } else {
