@@ -2,8 +2,11 @@
 import React from 'react'
 import Card from "../components/Card";
 import Transactions from '../components/Transactions';
+import { useState } from 'react';
 
 const Deposits: React.FC = () => { 
+
+  const [refresh, setRefresh] = useState(0)
   return (
     <div className="flex flex-col h-screen px-10 gap-16">
       <div className="flex justify-center gap-x-10 pt-8">
@@ -21,7 +24,7 @@ const Deposits: React.FC = () => {
           <p className="py-3 pl-2">Subscription Management</p>
         </div>
 
-        <Transactions />
+        <Transactions refresh={refresh} setRefresh={setRefresh} />
       </div>
     </div>
   )

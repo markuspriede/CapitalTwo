@@ -46,7 +46,7 @@ const Home = () => {
     fetch(`http://3.84.112.106/budget`)
       .then((res) => res.json())
       .then((data) => {
-        const processedData = data.map((category) => ({
+        const processedData = data.map((category: any) => ({
           name: category.category_name,
           value: category.amount_spent, 
         }));
