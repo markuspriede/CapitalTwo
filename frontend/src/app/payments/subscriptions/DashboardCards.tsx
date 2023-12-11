@@ -33,9 +33,9 @@ const ComingUpCard = (props: ICustomSubCard) => {
           <div className="relative flex items-center gap-4 pt-0 pr-3 mx-0 mt-4 overflow-hidden text-gray-700 rounded-xl">
           {renderIcon()}
             <div className="flex w-full flex-col gap-0.5">
-            <p className="block font-sans text-base antialiased font-bold leading-relaxed text-blue-gray-900">
-                    Coming Up
-                </p>
+            <h3 className="block font-sans text-base antialiased font-bold leading-relaxed text-blue-gray-900">
+                    {props.comingUp}
+                </h3>
               <div className="flex items-center justify-between">
                 <h5 className="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
                   {props.subscription_name}

@@ -47,7 +47,7 @@ const SubscriptionsPage: React.FC = () => {
     <div className="flex flex-wrap gap-20 mt-4 mb-4">
           <SubTotalCard {...subTotalData}/>
 
-          {highestIdSub !== null ? (
+          {highestIdSub?.subscription_name !== undefined && highestIdSub !== null ? (
           <ComingUpCard 
             subscription_name={highestIdSub.subscription_name} 
             price={highestIdSub.price} 
@@ -55,6 +55,7 @@ const SubscriptionsPage: React.FC = () => {
             id={highestIdSub.id} 
             date='Due: 12-31-2023'
             icon_path={highestIdSub.icon_path}
+            comingUp='Coming Up'
           />
           ) :  (
             <div className="flex items-center justify-center">

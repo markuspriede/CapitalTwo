@@ -19,6 +19,7 @@ export interface ICustomSubCard {
   icon_path: string;
   id: number;
   date?: string;
+  comingUp?: string
 }
 
 export interface IBudgetItem {
