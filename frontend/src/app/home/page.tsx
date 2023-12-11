@@ -48,7 +48,7 @@ const Home = () => {
       .then((data) => {
         const processedData = data.map((category) => ({
           name: category.category_name,
-          value: category.amount_spent, // or any other field you want to use
+          value: category.amount_spent, 
         }));
         setPieData(processedData);
       })
