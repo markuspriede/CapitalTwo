@@ -24,7 +24,7 @@ const SubscriptionModal = (props: ISubscriptionModal) => {
       body: JSON.stringify({
         "icon_path": "",
         "routine": "Monthly",
-        "description": "",
+        "description": `${description}`,
         "subscription_name": `${props.transaction?.name}`,
         "price": `${props.transaction?.amount}`
       })
