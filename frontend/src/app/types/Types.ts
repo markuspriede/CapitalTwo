@@ -14,10 +14,11 @@ export interface ITransaction {
 export interface ICustomSubCard {
   subscription_name: string;
   price: number;
-  description: string;
+  description?: string;
   routine: string;
   icon_path: string;
   id: number;
+  date?: string;
 }
 
 export interface IBudgetItem {
