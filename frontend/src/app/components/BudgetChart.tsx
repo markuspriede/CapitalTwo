@@ -14,10 +14,10 @@ const BudgetChart = (props: IBudgetChartProps) => {
     }).catch((error) => console.error('Error fetching data:', error));
   }, [props.refresh]);
 
-  return <div className="w-full">
+  return <div className="w-full h-full bg-white"> 
     {
       budgets.map((budget, index) => {
-        if (index > 1) {
+        if (index > 2) {
           return <div key={index}></div>;
         }
 
