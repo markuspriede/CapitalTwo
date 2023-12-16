@@ -34,6 +34,7 @@ As was shown in the demo, the user is able to view all of their transactions, an
 - Endpoints are not protected
 - Icons do not display in subscriptions, unless creating subscription group directly from API
 - Fetching data for all users in backend, not per user
+- Login and Registration for users is not implemented correctly due to certain constraints
 
 ### What we would work on next
 If we had more time for this project, we would complete the authentication aspect of the application. After that, we would try to integrate the AI chatbot that we originally wanted to include in the project. This task would require us to host the AI model, and have it interact with the user to help automate tasks, as well as provide the user with helpful tips about how they may be able to stay with their budgets, provide information about subscriptions, and any other useful financial tips. 
